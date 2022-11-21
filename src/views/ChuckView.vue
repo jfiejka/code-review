@@ -28,10 +28,13 @@
 <script lang="ts">
 import {computed, defineComponent, ref} from "vue";
 import {useChuckStore} from "@/stores/useChuckStore";
+import {storeToRefs} from "pinia";
 
 export default defineComponent({
   setup() {
-    const {newFact, facts, archiveFact} = useChuckStore();
+    const {newFact, archiveFact} = useChuckStore();
+
+    const {facts} = storeToRefs(useChuckStore())
 
     const ratings = ref<Record<string, number>>({})
     const rate = (id: string, rateValue: number) => {
@@ -49,7 +52,7 @@ export default defineComponent({
     }
 
     const factsArray = computed(() => {
-      return facts
+      return facts.value
     })
 
     const getDate = (date: Date) => {
