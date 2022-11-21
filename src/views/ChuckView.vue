@@ -18,6 +18,7 @@
         <div class="rating4 flex-center" @click="rate(fact.id, 4)">4</div>
         <div class="rating5 flex-center" @click="rate(fact.id, 5)">5</div>
       </div>
+      <div class="button-archive" @click="archiveFact(fact.id)">Archive</div>
       <div class="text-right">{{ getDate(fact.created_at) }}</div>
     </div>
     <button class="button" @click="newFact">New fact</button>
@@ -30,7 +31,7 @@ import {useChuckStore} from "@/stores/useChuckStore";
 
 export default defineComponent({
   setup() {
-    const {newFact, facts} = useChuckStore();
+    const {newFact, facts, archiveFact} = useChuckStore();
 
     const ratings = ref<Record<string, number>>({})
     const rate = (id: string, rateValue: number) => {
@@ -61,7 +62,7 @@ export default defineComponent({
           0) / (Object.values(ratings.value).length || 1)
     })
 
-    return {newFact, rate, ratings, doesRatingExist, removeRating, factsArray, getDate, average};
+    return {newFact, rate, ratings, doesRatingExist, removeRating, factsArray, getDate, average, archiveFact};
   },
 });
 </script>
@@ -191,5 +192,13 @@ export default defineComponent({
 .text-right {
   margin-top: 20px;
   text-align: right;
+}
+.button-archive {
+  padding: 4px 10px;
+  background: palevioletred;
+  display: inline-flex;
+  border-radius: 10px;
+  cursor: pointer;
+
 }
 </style>
