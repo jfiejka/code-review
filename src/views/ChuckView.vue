@@ -1,6 +1,7 @@
 <template>
   <div class="user">
     <h1>Chuck facts</h1>
+    <p>In archive {{archive.length}}</p>
     <p v-show="avVar">Average rating: {{ avVar }}</p>
     <div v-for="fact in factsArray" class="fact">
       <div v-if="doesRatingExist(fact.id)">
@@ -34,7 +35,7 @@ export default defineComponent({
   setup() {
     const {newFact, archiveFact} = useChuckStore();
 
-    const {facts} = storeToRefs(useChuckStore())
+    const {facts, archive} = storeToRefs(useChuckStore())
 
     const ratings = ref<Record<string, number>>({})
     const rate = (id: string, rateValue: number) => {
@@ -65,7 +66,7 @@ export default defineComponent({
           0) / (Object.values(ratings.value).length || 1)
     })
 
-    return {newFact, rate, ratings, doesRatingExist, removeRating, factsArray, getDate, avVar, archiveFact};
+    return {newFact, rate, ratings, doesRatingExist, removeRating, factsArray, getDate, avVar, archiveFact, archive};
   },
 });
 </script>
