@@ -11,8 +11,6 @@ export const useChuckStore = defineStore("counter", () => {
     };
     const archiveFact = (id) => {
         archive.value.push(facts.value.find(f => f.id));
-        console.log(facts.value.filter(f => f.id !== id))
-        console.log(id)
         facts.value = facts.value.filter(f => f.id !== id);
     }
     return {facts, newFact, archive, archiveFact};

@@ -1,7 +1,7 @@
 <template>
   <div class="user">
     <h1>Chuck facts</h1>
-    <p v-show="average">Average rating: {{ average }}</p>
+    <p v-show="avVar">Average rating: {{ average }}</p>
     <div v-for="fact in factsArray" class="fact">
       <div v-if="doesRatingExist(fact.id)">
         <div class="rating">{{ ratings[fact.id] }}</div>
@@ -56,13 +56,13 @@ export default defineComponent({
       return new Date(date).toLocaleString()
     }
 
-    const average = computed(() => {
+    const avVar = computed(() => {
       return Object.values(ratings.value).reduce(
           (accumulator, currentValue) => accumulator + currentValue,
           0) / (Object.values(ratings.value).length || 1)
     })
 
-    return {newFact, rate, ratings, doesRatingExist, removeRating, factsArray, getDate, average, archiveFact};
+    return {newFact, rate, ratings, doesRatingExist, removeRating, factsArray, getDate, avVar, archiveFact};
   },
 });
 </script>
