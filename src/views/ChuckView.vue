@@ -1,7 +1,7 @@
 <template>
   <div class="user">
     <h1>Chuck facts</h1>
-    <p v-show="avVar">Average rating: {{ average }}</p>
+    <p v-show="avVar">Average rating: {{ avVar }}</p>
     <div v-for="fact in factsArray" class="fact">
       <div v-if="doesRatingExist(fact.id)">
         <div class="rating">{{ ratings[fact.id] }}</div>
