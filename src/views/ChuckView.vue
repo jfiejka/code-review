@@ -1,7 +1,8 @@
 <template>
   <div class="user">
     <h1>Chuck facts</h1>
-    <div v-for="fact in facts" class="fact">
+    <p v-show="average">Average rating: {{ average }}</p>
+    <div v-for="fact in factsArray" class="fact">
       <div v-if="doesRatingExist(fact.id)">
         <div class="rating">{{ ratings[fact.id] }}</div>
         <button class="remove-rating" @click="removeRating(fact.id)">remove rting</button>
@@ -17,13 +18,14 @@
         <div class="rating4 flex-center" @click="rate(fact.id, 4)">4</div>
         <div class="rating5 flex-center" @click="rate(fact.id, 5)">5</div>
       </div>
+      <div class="text-right">{{ getDate(fact.created_at) }}</div>
     </div>
     <button class="button" @click="newFact">New fact</button>
   </div>
 </template>
 
 <script lang="ts">
-import {defineComponent, ref} from "vue";
+import {computed, defineComponent, ref} from "vue";
 import {useChuckStore} from "@/stores/useChuckStore";
 
 export default defineComponent({
@@ -44,7 +46,22 @@ export default defineComponent({
     const removeRating = (id) => {
       delete ratings.value[id]
     }
-    return {facts, newFact, rate, ratings, doesRatingExist, removeRating};
+
+    const factsArray = computed(() => {
+      return facts
+    })
+
+    const getDate = (date: Date) => {
+      return new Date(date).toLocaleString()
+    }
+
+    const average = computed(() => {
+      return Object.values(ratings.value).reduce(
+          (accumulator, currentValue) => accumulator + currentValue,
+          0) / (Object.values(ratings.value).length || 1)
+    })
+
+    return {newFact, rate, ratings, doesRatingExist, removeRating, factsArray, getDate, average};
   },
 });
 </script>
@@ -169,5 +186,10 @@ export default defineComponent({
   height: 40px;
   margin-bottom: 20px;
   font-weight: bold;
+}
+
+.text-right {
+  margin-top: 20px;
+  text-align: right;
 }
 </style>
